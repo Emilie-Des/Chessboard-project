@@ -1,0 +1,10 @@
+{
+	"InstallScripts" : 
+	[
+		"C:/Users/emili/Documents/IMAC/S4/Prog-objet/Chessboard-project/build/cmake_install.cmake",
+		"C:/Users/emili/Documents/IMAC/S4/Prog-objet/Chessboard-project/build/lib/quick_imgui/cmake_install.cmake",
+		"C:/Users/emili/Documents/IMAC/S4/Prog-objet/Chessboard-project/build/lib/quick_imgui/lib/glfw/cmake_install.cmake",
+		"C:/Users/emili/Documents/IMAC/S4/Prog-objet/Chessboard-project/build/lib/quick_imgui/lib/glfw/src/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

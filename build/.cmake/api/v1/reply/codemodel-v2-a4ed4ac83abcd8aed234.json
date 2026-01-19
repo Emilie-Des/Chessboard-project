@@ -1,0 +1,173 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"build" : "lib/quick_imgui",
+					"childIndexes" : 
+					[
+						2
+					],
+					"jsonFile" : "directory-lib.quick_imgui-Debug-23278b2f6de041a77751.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.8"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "lib/quick_imgui",
+					"targetIndexes" : 
+					[
+						0,
+						2,
+						4
+					]
+				},
+				{
+					"build" : "lib/quick_imgui/lib/glfw",
+					"childIndexes" : 
+					[
+						3
+					],
+					"jsonFile" : "directory-lib.quick_imgui.lib.glfw-Debug-c7000c4350ed831f071e.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.4"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 1,
+					"source" : "lib/quick_imgui/lib/glfw"
+				},
+				{
+					"build" : "lib/quick_imgui/lib/glfw/src",
+					"jsonFile" : "directory-lib.quick_imgui.lib.glfw.src-Debug-f2d0ff5ea06a3247b41f.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.4"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 1,
+					"source" : "lib/quick_imgui/lib/glfw/src",
+					"targetIndexes" : 
+					[
+						3,
+						5
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1
+					],
+					"directoryIndexes" : 
+					[
+						0,
+						1
+					],
+					"name" : "ImGuiTemplate",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						4
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						2,
+						3
+					],
+					"name" : "GLFW",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						3,
+						5
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 1,
+					"id" : "ImGui::@21d9a5ebfad28c014080",
+					"jsonFile" : "target-ImGui-Debug-c895d238e515ac044d31.json",
+					"name" : "ImGui",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ImGuiTemplate::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ImGuiTemplate-Debug-252aad0e97863fc8a02d.json",
+					"name" : "ImGuiTemplate",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "glad::@21d9a5ebfad28c014080",
+					"jsonFile" : "target-glad-Debug-80b12fa845d55154d806.json",
+					"name" : "glad",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "glfw::@e9b3aeb2e2c45383b80c",
+					"jsonFile" : "target-glfw-Debug-0463d5c37beedd95128e.json",
+					"name" : "glfw",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "quick_imgui::@21d9a5ebfad28c014080",
+					"jsonFile" : "target-quick_imgui-Debug-6811008ca4b3d10877ff.json",
+					"name" : "quick_imgui",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "update_mappings::@e9b3aeb2e2c45383b80c",
+					"jsonFile" : "target-update_mappings-Debug-47c7dc8423ca797c53f1.json",
+					"name" : "update_mappings",
+					"projectIndex" : 1
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/emili/Documents/IMAC/S4/Prog-objet/Chessboard-project/build",
+		"source" : "C:/Users/emili/Documents/IMAC/S4/Prog-objet/Chessboard-project"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 8
+	}
+}
