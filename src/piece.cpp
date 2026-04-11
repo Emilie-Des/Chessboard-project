@@ -7,6 +7,7 @@ Piece::Piece() : m_color(), m_pieceType(), m_position() {}
 Piece::~Piece() {}
 
 Piece::Piece(PieceColor color, PieceType type, std::pair<int, int> position) : m_color(color), m_pieceType(type), m_position(position) {}
+Piece::Piece(std::pair<int, int> position) : m_color(), m_pieceType(), m_position(position) {}
 
 PieceType Piece::getType()
 {
@@ -23,7 +24,7 @@ std::pair<int, int> Piece::getPosition()
     return m_position;
 }
 
-void Piece::showMoves(std::array<std::array<Piece, 8>, 8>& chessboard)
+void Piece::showMoves(std::vector<std::vector<Piece>>& chessboard)
 { ////////Move constructor
     if (m_pieceType != PieceType::EMPTY)
     {
@@ -66,11 +67,14 @@ void Piece::move()
     }
 }
 
-std::vector<Piece> Piece::select(std::array<std::array<Piece, 8>, 8>& chessboard)
+std::vector<Piece> Piece::select(std::vector<std::vector<Piece>>& chessboard)
 {
     std::vector<Piece> destinations{};
     if (m_pieceType != PieceType::EMPTY)
     {
+        int x{};
+        int y{};
+
         switch (m_pieceType)
         {
         case PieceType::KING:
@@ -80,15 +84,40 @@ std::vector<Piece> Piece::select(std::array<std::array<Piece, 8>, 8>& chessboard
         case PieceType::PAWN:
             if (m_color == PieceColor::Black)
             {
-                destinations.push_back(chessboard[m_position.first][m_position.second - 1]);
+                if (m_position.first < 7)
+                {
+                    if (m_position.second != 0)
+                    {
+                        destinations.push_back(chessboard[m_position.first + 1][m_position.second - 1]);
+                    }
+                    if (m_position.second != 7)
+                    {
+                        destinations.push_back(chessboard[m_position.first + 1][m_position.second + 1]);
+                    }
+                }
             }
             else
             {
-                destinations.push_back(chessboard[m_position.first][m_position.second + 1]);
+                if (m_position.first > 0)
+                {
+                    if (m_position.second != 0)
+                    {
+                        destinations.push_back(chessboard[m_position.first - 1][m_position.second - 1]);
+                    }
+                    if (m_position.second != 7)
+                    {
+                        destinations.push_back(chessboard[m_position.first - 1][m_position.second + 1]);
+                    }
+                }
             }
 
             break;
         }
     }
     return destinations;
+}
+
+bool Piece::operator==(const Piece& piece) const
+{
+    return ((this->m_pieceType == piece.m_pieceType) && (this->m_color == piece.m_color) && (this->m_position == piece.m_position));
 }

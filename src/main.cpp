@@ -1,10 +1,14 @@
 #include <imgui.h>
+#include <algorithm>
 #include <array>
 #include <iostream>
+#include <iterator>
+#include <ostream>
+#include <vector>
 #include "piece.hpp"
 #include "quick_imgui/quick_imgui.hpp"
 
-std::array<std::array<Piece, 8>, 8> New_Game()
+std::vector<std::vector<Piece>> New_Game()
 {
     // Piece R1{PieceColor::Black, PieceType::ROOK};
     // Piece N1{PieceColor::Black, PieceType::KNIGHT};
@@ -42,10 +46,41 @@ std::array<std::array<Piece, 8>, 8> New_Game()
     Piece P7{PieceColor::Black, PieceType::PAWN, std::pair(1, 6)};
     Piece P8{PieceColor::Black, PieceType::PAWN, std::pair(1, 7)};
 
-    Piece C1, C2, C3, C4, C5, C6, C7, C8{};
-    Piece D1, D2, D3, D4, D5, D6, D7, D8{};
-    Piece E1, E2, E3, E4, E5, E6, E7, E8{};
-    Piece F1, F2, F3, F4, F5, F6, F7, F8{};
+    Piece C1{std::pair(2, 0)};
+    Piece C2{std::pair(2, 1)};
+    Piece C3{std::pair(2, 2)};
+    Piece C4{std::pair(2, 3)};
+    Piece C5{std::pair(2, 4)};
+    Piece C6{std::pair(2, 5)};
+    Piece C7{std::pair(2, 6)};
+    Piece C8{std::pair(2, 7)};
+
+    Piece D1{std::pair(3, 0)};
+    Piece D2{std::pair(3, 1)};
+    Piece D3{std::pair(3, 2)};
+    Piece D4{std::pair(3, 3)};
+    Piece D5{std::pair(3, 4)};
+    Piece D6{std::pair(3, 5)};
+    Piece D7{std::pair(3, 6)};
+    Piece D8{std::pair(3, 7)};
+
+    Piece E1{std::pair(4, 0)};
+    Piece E2{std::pair(4, 1)};
+    Piece E3{std::pair(4, 2)};
+    Piece E4{std::pair(4, 3)};
+    Piece E5{std::pair(4, 4)};
+    Piece E6{std::pair(4, 5)};
+    Piece E7{std::pair(4, 6)};
+    Piece E8{std::pair(4, 7)};
+
+    Piece F1{std::pair(5, 0)};
+    Piece F2{std::pair(5, 1)};
+    Piece F3{std::pair(5, 2)};
+    Piece F4{std::pair(5, 3)};
+    Piece F5{std::pair(5, 4)};
+    Piece F6{std::pair(5, 5)};
+    Piece F7{std::pair(5, 6)};
+    Piece F8{std::pair(5, 7)};
 
     Piece P9{PieceColor::White, PieceType::PAWN, std::pair(6, 0)};
     Piece P10{PieceColor::White, PieceType::PAWN, std::pair(6, 1)};
@@ -65,15 +100,15 @@ std::array<std::array<Piece, 8>, 8> New_Game()
     Piece N4{PieceColor::White, PieceType::KNIGHT, std::pair(7, 6)};
     Piece R4{PieceColor::White, PieceType::ROOK, std::pair(7, 7)};
 
-    std::array<std::array<Piece, 8>, 8> chessboard{
-        R1, N1, B1, Q1, K1, B2, N2, R2,
-        P1, P2, P3, P4, P5, P6, P7, P8,
-        C1, C2, C3, C4, C5, C6, C7, C8,
-        D1, D2, D3, D4, D5, D6, D7, D8,
-        E1, E2, E3, E4, E5, E6, E7, E8,
-        F1, F2, F3, F4, F5, F6, F7, F8,
-        P9, P10, P11, P12, P13, P14, P15, P16,
-        R3, N3, B3, K2, Q2, B4, N4, R4
+    std::vector<std::vector<Piece>> chessboard = {
+        {R1, N1, B1, Q1, K1, B2, N2, R2},
+        {P1, P2, P3, P4, P5, P6, P7, P8},
+        {C1, C2, C3, C4, C5, C6, C7, C8},
+        {D1, D2, D3, D4, D5, D6, D7, D8},
+        {E1, E2, E3, E4, E5, E6, E7, E8},
+        {F1, F2, F3, F4, F5, F6, F7, F8},
+        {P9, P10, P11, P12, P13, P14, P15, P16},
+        {R3, N3, B3, K2, Q2, B4, N4, R4}
     };
     ///////////////////////Comment faire un mouv ?
     return chessboard;
@@ -84,6 +119,10 @@ int main()
     float value{0.f};
 
     float padding = 0;
+
+    // std::array<std::array<Piece, 8>, 8> chessboard{New_Game()};
+    std::vector<std::vector<Piece>> chessboard{New_Game()};
+    std::vector<Piece>              destinations{};
 
     quick_imgui::loop(
         "Chess",
@@ -119,21 +158,31 @@ int main()
 
                     ImGui::End();
                     /////////////////////////////////////////////////
-                    std::array<std::array<Piece, 8>, 8> chessboard{New_Game()};
 
                     ImGui::Begin("Chess");
                     ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(1200, 1200));
 
                     ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(padding, padding));
 
-                    int                num_case = 0;
-                    std::vector<Piece> destinations{};
+                    int num_case = 0;
 
                     for (int y{0}; y < 8; y++)
                     {
                         for (int x{0}; x < 8; x++)
                         {
-                            if (y % 2 == x % 2)
+                            // if (std::find(destinations.begin(), destinations.end(), chessboard[y][x]) != destinations.end()) //////////////// A REMPLIR pour sélection
+                            bool is_destination{};
+                            // for (auto destination : destinations)
+                            // {
+                            //     is_destination = (destination == chessboard[y][x]);
+                            // }
+                            is_destination = std::find(destinations.begin(), destinations.end(), chessboard[y][x]) != destinations.end();
+                            if (is_destination)
+                            {
+                                // ImGui::PushStyleColor(ImGuiCol_Border, ImVec4{0.9f, 0.5f, 0.0f, 1.f});
+                                ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{0.9f, 0.5f, 0.0f, 1.f});
+                            }
+                            else if (y % 2 == x % 2)
                             {
                                 ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{0.9f, 0.7f, 0.9f, 1.f});
                             }
@@ -181,8 +230,10 @@ int main()
                             else if (chessboard[y][x].getType() == PieceType::PAWN)
                             {
                                 if (ImGui::Button("P", ImVec2{150.f, 150.f}))
-                                    destinations = chessboard[x][y].select(chessboard);
-                                // std::cout << y << "," << x << "  ";
+                                {
+                                    destinations = chessboard[y][x].select(chessboard);
+                                    std::cout << "clicked : " << x << ";" << y << " case : " << (chessboard[y][x].getPosition()).first << ";" << (chessboard[y][x].getPosition()).second << " | ";
+                                }
                             }
 
                             else
@@ -198,11 +249,6 @@ int main()
                             num_case++;
                         }
                         ImGui::NewLine();
-                    }
-
-                    for (auto piece : destinations)
-                    {
-                        ImGui::PushStyleColor(ImGuiCol_Border, ImVec4{0.9f, 0.2f, 0.9f, 1.f});
                     }
 
                     ImGui::PopStyleVar(2);

@@ -24,20 +24,22 @@ enum class PieceType : uint8_t {
 class Piece {
 public:
     Piece();
+    Piece(std::pair<int, int> position);
     Piece(PieceColor color, PieceType type, std::pair<int, int> position);
     ~Piece();
 
     void                      move();
-    std::vector<Piece>        select(std::array<std::array<Piece, 8>, 8>& chessboard);
+    std::vector<Piece>        select(std::vector<std::vector<Piece>>& chessboard);
     std::pair<int, int>       getPosition();
     PieceType                 getType();
     std::optional<PieceColor> getColor();
-    void                      showMoves(std::array<std::array<Piece, 8>, 8>& chessboard);
+    void                      showMoves(std::vector<std::vector<Piece>>& chessboard);
+    bool                      operator==(const Piece& piece) const;
 
 private:
     std::optional<PieceColor> m_color;
     PieceType                 m_pieceType;
-    std::pair<int, int>       m_position;
+    std::pair<int, int>       m_position; // (y,x)
 };
 
 // class Bishop {
