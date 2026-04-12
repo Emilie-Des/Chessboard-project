@@ -1,4 +1,5 @@
 #include "piece.hpp"
+#include <algorithm>
 #include <cstddef>
 #include <optional>
 #include <vector>
@@ -72,41 +73,99 @@ std::vector<Piece> Piece::select(std::vector<std::vector<Piece>>& chessboard)
     std::vector<Piece> destinations{};
     if (m_pieceType != PieceType::EMPTY)
     {
-        int x{};
-        int y{};
+        int piece_x{getPosition().second};
+        int piece_y{getPosition().first};
+
+        int biggest{};
+
+        bool left_border_test{};
+        bool right_border_test{};
+        bool upper_border_test{};
+        bool bottom_border_test{};
 
         switch (m_pieceType)
         {
         case PieceType::KING:
+            for (int i = 0; i <= 7; i++)
+            {
+                if (i != piece_y)
+                {
+                    destinations.push_back(chessboard[i][piece_x]);
+                }
+
+                if (i != piece_x)
+                {
+                    destinations.push_back(chessboard[piece_y][i]);
+                }
+            }
+
             break;
+
         case PieceType::QUEEN:
+            for (int i = 0; i <= 7; i++)
+            {
+                left_border_test   = piece_x - i >= 0;
+                right_border_test  = i + piece_x <= 7;
+                upper_border_test  = piece_y - i >= 0;
+                bottom_border_test = i + piece_y <= 7;
+
+                if (i != piece_y)
+                {
+                    destinations.push_back(chessboard[i][piece_x]);
+                }
+                if (i != piece_x)
+                {
+                    destinations.push_back(chessboard[piece_y][i]);
+                }
+                if (i != 0)
+                {
+                    if (bottom_border_test && right_border_test) // there's space in the bottom right corner
+                    {
+                        destinations.push_back(chessboard[piece_y + i][piece_x + i]);
+                    }
+                    if (upper_border_test && right_border_test) // there's space in the upper right corner
+                    {
+                        destinations.push_back(chessboard[piece_y - i][piece_x + i]);
+                    }
+                    if (bottom_border_test && left_border_test) // there's space in the bottom left corner
+                    {
+                        destinations.push_back(chessboard[piece_y + i][piece_x - i]);
+                    }
+                    if (upper_border_test && left_border_test) // there's space in the upper left corner
+                    {
+                        destinations.push_back(chessboard[piece_y - i][piece_x - i]);
+                    }
+                }
+            }
+
             break;
+
         case PieceType::PAWN:
             if (m_color == PieceColor::Black)
             {
-                if (m_position.first < 7)
+                if (piece_y < 7)
                 {
-                    if (m_position.second != 0)
+                    if (piece_x != 0)
                     {
-                        destinations.push_back(chessboard[m_position.first + 1][m_position.second - 1]);
+                        destinations.push_back(chessboard[piece_y + 1][piece_x - 1]);
                     }
-                    if (m_position.second != 7)
+                    if (piece_x != 7)
                     {
-                        destinations.push_back(chessboard[m_position.first + 1][m_position.second + 1]);
+                        destinations.push_back(chessboard[piece_y + 1][piece_x + 1]);
                     }
                 }
             }
             else
             {
-                if (m_position.first > 0)
+                if (piece_y > 0)
                 {
-                    if (m_position.second != 0)
+                    if (piece_x != 0)
                     {
-                        destinations.push_back(chessboard[m_position.first - 1][m_position.second - 1]);
+                        destinations.push_back(chessboard[piece_y - 1][piece_x - 1]);
                     }
-                    if (m_position.second != 7)
+                    if (piece_x != 7)
                     {
-                        destinations.push_back(chessboard[m_position.first - 1][m_position.second + 1]);
+                        destinations.push_back(chessboard[piece_y - 1][piece_x + 1]);
                     }
                 }
             }

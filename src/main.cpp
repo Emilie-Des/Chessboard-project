@@ -205,12 +205,18 @@ int main()
                             if (chessboard[y][x].getType() == PieceType::KING)
                             {
                                 if (ImGui::Button("R", ImVec2{150.f, 150.f}))
-                                    std::cout << y << "," << x << "  ";
+                                {
+                                    destinations = chessboard[y][x].select(chessboard);
+                                    std::cout << "clicked : " << x << ";" << y << " case : " << (chessboard[y][x].getPosition()).first << ";" << (chessboard[y][x].getPosition()).second << " | ";
+                                }
                             }
                             else if (chessboard[y][x].getType() == PieceType::QUEEN)
                             {
                                 if (ImGui::Button("D", ImVec2{150.f, 150.f}))
-                                    std::cout << y << "," << x << "  ";
+                                {
+                                    destinations = chessboard[y][x].select(chessboard);
+                                    std::cout << "clicked : " << x << ";" << y << " case : " << (chessboard[y][x].getPosition()).first << ";" << (chessboard[y][x].getPosition()).second << " | ";
+                                }
                             }
                             else if (chessboard[y][x].getType() == PieceType::BISHOP)
                             {
