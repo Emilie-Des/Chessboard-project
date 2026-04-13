@@ -12,7 +12,6 @@ enum class PieceColor : uint8_t {
 };
 
 enum class PieceType : uint8_t {
-    EMPTY,
     QUEEN,
     KING,
     BISHOP,
@@ -24,30 +23,22 @@ enum class PieceType : uint8_t {
 class Piece {
 public:
     Piece();
-    Piece(std::pair<int, int> position);
-    Piece(PieceColor color, PieceType type, std::pair<int, int> position);
+    explicit Piece(std::pair<int, int> position);
+    Piece(std::optional<PieceColor> color, std::optional<PieceType> type, std::pair<int, int> position);
     ~Piece();
 
-    void                      move();
+    void                      move(std::vector<Piece>& destinations, Piece& moving_piece);
     std::vector<Piece>        select(std::vector<std::vector<Piece>>& chessboard);
     std::pair<int, int>       getPosition();
-    PieceType                 getType();
+    std::optional<PieceType>  getType();
     std::optional<PieceColor> getColor();
+    void                      setColor(std::optional<PieceColor> new_color);
+    void                      setType(std::optional<PieceType> new_type);
     void                      showMoves(std::vector<std::vector<Piece>>& chessboard);
     bool                      operator==(const Piece& piece) const;
 
 private:
     std::optional<PieceColor> m_color;
-    PieceType                 m_pieceType;
+    std::optional<PieceType>  m_pieceType;
     std::pair<int, int>       m_position; // (y,x)
 };
-
-// class Bishop {
-// public:
-//     Bishop();
-//     ~Bishop();
-
-//     void move();
-
-// private:
-// };

@@ -123,6 +123,8 @@ int main()
     // std::array<std::array<Piece, 8>, 8> chessboard{New_Game()};
     std::vector<std::vector<Piece>> chessboard{New_Game()};
     std::vector<Piece>              destinations{};
+    Piece*                          ptr_selected{};
+    const auto                      ptr_addr = ptr_selected;
 
     quick_imgui::loop(
         "Chess",
@@ -164,18 +166,17 @@ int main()
 
                     ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(padding, padding));
 
+                    if (ImGui::IsMouseClicked(ImGuiMouseButton_Right))
+                    {
+                        destinations.clear();
+                        ptr_selected = ptr_addr;
+                    }
                     int num_case = 0;
-
                     for (int y{0}; y < 8; y++)
                     {
                         for (int x{0}; x < 8; x++)
                         {
-                            // if (std::find(destinations.begin(), destinations.end(), chessboard[y][x]) != destinations.end()) //////////////// A REMPLIR pour sélection
                             bool is_destination{};
-                            // for (auto destination : destinations)
-                            // {
-                            //     is_destination = (destination == chessboard[y][x]);
-                            // }
                             is_destination = std::find(destinations.begin(), destinations.end(), chessboard[y][x]) != destinations.end();
                             if (is_destination)
                             {
@@ -206,46 +207,91 @@ int main()
                             {
                                 if (ImGui::Button("R", ImVec2{150.f, 150.f}))
                                 {
-                                    destinations = chessboard[y][x].select(chessboard);
-                                    std::cout << "clicked : " << x << ";" << y << " case : " << (chessboard[y][x].getPosition()).first << ";" << (chessboard[y][x].getPosition()).second << " | ";
+                                    if (!destinations.empty())
+                                        chessboard[y][x].move(destinations, *ptr_selected);
+                                    else
+                                    {
+                                        destinations = chessboard[y][x].select(chessboard);
+                                        ptr_selected = &chessboard[y][x];
+                                        std::cout << "clicked : " << x << ";" << y << " case : " << (chessboard[y][x].getPosition()).first << ";" << (chessboard[y][x].getPosition()).second << " | ";
+                                    }
                                 }
                             }
                             else if (chessboard[y][x].getType() == PieceType::QUEEN)
                             {
                                 if (ImGui::Button("D", ImVec2{150.f, 150.f}))
                                 {
-                                    destinations = chessboard[y][x].select(chessboard);
-                                    std::cout << "clicked : " << x << ";" << y << " case : " << (chessboard[y][x].getPosition()).first << ";" << (chessboard[y][x].getPosition()).second << " | ";
+                                    if (!destinations.empty())
+                                        chessboard[y][x].move(destinations, *ptr_selected);
+                                    else
+                                    {
+                                        destinations = chessboard[y][x].select(chessboard);
+                                        ptr_selected = &chessboard[y][x];
+                                        std::cout << "clicked : " << x << ";" << y << " case : " << (chessboard[y][x].getPosition()).first << ";" << (chessboard[y][x].getPosition()).second << " | ";
+                                    }
                                 }
                             }
                             else if (chessboard[y][x].getType() == PieceType::BISHOP)
                             {
                                 if (ImGui::Button("F", ImVec2{150.f, 150.f}))
-                                    std::cout << y << "," << x << "  ";
+                                {
+                                    if (!destinations.empty())
+                                        chessboard[y][x].move(destinations, *ptr_selected);
+                                    else
+                                    {
+                                        destinations = chessboard[y][x].select(chessboard);
+                                        ptr_selected = &chessboard[y][x];
+                                        std::cout << "clicked : " << x << ";" << y << " case : " << (chessboard[y][x].getPosition()).first << ";" << (chessboard[y][x].getPosition()).second << " | ";
+                                    }
+                                }
                             }
                             else if (chessboard[y][x].getType() == PieceType::KNIGHT)
                             {
                                 if (ImGui::Button("C", ImVec2{150.f, 150.f}))
-                                    std::cout << y << "," << x << "  ";
+                                {
+                                    if (!destinations.empty())
+                                        chessboard[y][x].move(destinations, *ptr_selected);
+                                    else
+                                    {
+                                        destinations = chessboard[y][x].select(chessboard);
+                                        ptr_selected = &chessboard[y][x];
+                                        std::cout << "clicked : " << x << ";" << y << " case : " << (chessboard[y][x].getPosition()).first << ";" << (chessboard[y][x].getPosition()).second << " | ";
+                                    }
+                                }
                             }
                             else if (chessboard[y][x].getType() == PieceType::ROOK)
                             {
                                 if (ImGui::Button("T", ImVec2{150.f, 150.f}))
-                                    std::cout << y << "," << x << "  ";
+                                {
+                                    if (!destinations.empty())
+                                        chessboard[y][x].move(destinations, *ptr_selected);
+                                    else
+                                    {
+                                        destinations = chessboard[y][x].select(chessboard);
+                                        ptr_selected = &chessboard[y][x];
+                                        std::cout << "clicked : " << x << ";" << y << " case : " << (chessboard[y][x].getPosition()).first << ";" << (chessboard[y][x].getPosition()).second << " | ";
+                                    }
+                                }
                             }
                             else if (chessboard[y][x].getType() == PieceType::PAWN)
                             {
                                 if (ImGui::Button("P", ImVec2{150.f, 150.f}))
                                 {
-                                    destinations = chessboard[y][x].select(chessboard);
-                                    std::cout << "clicked : " << x << ";" << y << " case : " << (chessboard[y][x].getPosition()).first << ";" << (chessboard[y][x].getPosition()).second << " | ";
+                                    if (!destinations.empty())
+                                        chessboard[y][x].move(destinations, *ptr_selected);
+                                    else
+                                    {
+                                        destinations = chessboard[y][x].select(chessboard);
+                                        ptr_selected = &chessboard[y][x];
+                                        std::cout << "clicked : " << x << ";" << y << " case : " << (chessboard[y][x].getPosition()).first << ";" << (chessboard[y][x].getPosition()).second << " | ";
+                                    }
                                 }
                             }
 
                             else
                             {
                                 if (ImGui::Button("", ImVec2{150.f, 150.f}))
-                                    std::cout << y << "," << x << "  ";
+                                    chessboard[y][x].move(destinations, *ptr_selected);
                             }
                             ImGui::SameLine();
 
