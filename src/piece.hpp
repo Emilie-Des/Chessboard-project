@@ -27,14 +27,21 @@ public:
     Piece(std::optional<PieceColor> color, std::optional<PieceType> type, std::pair<int, int> position);
     ~Piece();
 
-    void                      move(std::vector<Piece>& destinations, Piece& moving_piece);
-    std::vector<Piece>        select(std::vector<std::vector<Piece>>& chessboard);
+    void move(std::vector<Piece>& destinations, Piece& moving_piece);
+
+    std::vector<Piece> select(std::vector<std::vector<Piece>>& chessboard);
+    std::vector<Piece> kingMoves(std::vector<std::vector<Piece>>& chessboard, std::vector<Piece>& destinations, int const& piece_x, int const& piece_y);
+    std::vector<Piece> knightMoves(std::vector<std::vector<Piece>>& chessboard, std::vector<Piece>& destinations, int const& piece_x, int const& piece_y);
+    std::vector<Piece> pawnMoves(std::vector<std::vector<Piece>>& chessboard, std::vector<Piece>& destinations, int const& piece_x, int const& piece_y);
+    std::vector<Piece> queenMoves(std::vector<std::vector<Piece>>& chessboard, std::vector<Piece>& destinations, int const& piece_x, int const& piece_y);
+    std::vector<Piece> bishopMoves(std::vector<std::vector<Piece>>& chessboard, std::vector<Piece>& destinations, int const& piece_x, int const& piece_y);
+    std::vector<Piece> rookMoves(std::vector<std::vector<Piece>>& chessboard, std::vector<Piece>& destinations, int const& piece_x, int const& piece_y);
+
     std::pair<int, int>       getPosition();
     std::optional<PieceType>  getType();
     std::optional<PieceColor> getColor();
     void                      setColor(std::optional<PieceColor> new_color);
     void                      setType(std::optional<PieceType> new_type);
-    void                      showMoves(std::vector<std::vector<Piece>>& chessboard);
     bool                      operator==(const Piece& piece) const;
 
 private:
