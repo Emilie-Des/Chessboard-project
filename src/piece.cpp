@@ -172,30 +172,38 @@ std::vector<Piece> Piece::select(std::vector<std::vector<Piece>>& chessboard)
             if (piece_x > 0)
             {
                 if (piece_y > 0)
-                    destinations.push_back(chessboard[piece_y - 1][piece_x - 1]);
+                    if (!chessboard[piece_y - 1][piece_x - 1].getColor().has_value() || chessboard[piece_y - 1][piece_x - 1].getColor().value() != m_color)
+                        destinations.push_back(chessboard[piece_y - 1][piece_x - 1]);
 
                 if (piece_y < 7)
-                    destinations.push_back(chessboard[piece_y + 1][piece_x - 1]);
+                    if (!chessboard[piece_y + 1][piece_x - 1].getColor().has_value() || chessboard[piece_y + 1][piece_x - 1].getColor().value() != m_color)
+                        destinations.push_back(chessboard[piece_y + 1][piece_x - 1]);
 
-                destinations.push_back(chessboard[piece_y][piece_x - 1]);
+                if (!chessboard[piece_y][piece_x - 1].getColor().has_value() || chessboard[piece_y][piece_x - 1].getColor().value() != m_color)
+                    destinations.push_back(chessboard[piece_y][piece_x - 1]);
             }
 
             if (piece_x < 7)
             {
                 if (piece_y > 0)
-                    destinations.push_back(chessboard[piece_y - 1][piece_x + 1]);
+                    if (!chessboard[piece_y - 1][piece_x + 1].getColor().has_value() || chessboard[piece_y - 1][piece_x + 1].getColor().has_value() && chessboard[piece_y - 1][piece_x + 1].getColor().value() != m_color)
+                        destinations.push_back(chessboard[piece_y - 1][piece_x + 1]);
 
                 if (piece_y < 7)
-                    destinations.push_back(chessboard[piece_y + 1][piece_x + 1]);
+                    if (!chessboard[piece_y + 1][piece_x + 1].getColor().has_value() || chessboard[piece_y + 1][piece_x + 1].getColor().value() != m_color)
+                        destinations.push_back(chessboard[piece_y + 1][piece_x + 1]);
 
-                destinations.push_back(chessboard[piece_y][piece_x + 1]);
+                if (!chessboard[piece_y][piece_x + 1].getColor().has_value() || chessboard[piece_y][piece_x + 1].getColor().value() != m_color)
+                    destinations.push_back(chessboard[piece_y][piece_x + 1]);
             }
 
             if (piece_y < 7)
-                destinations.push_back(chessboard[piece_y + 1][piece_x]);
+                if (!chessboard[piece_y + 1][piece_x].getColor().has_value() || chessboard[piece_y + 1][piece_x].getColor().value() != m_color)
+                    destinations.push_back(chessboard[piece_y + 1][piece_x]);
 
             if (piece_y > 0)
-                destinations.push_back(chessboard[piece_y - 1][piece_x]);
+                if (!chessboard[piece_y - 1][piece_x].getColor().has_value() || chessboard[piece_y - 1][piece_x].getColor().value() != m_color)
+                    destinations.push_back(chessboard[piece_y - 1][piece_x]);
 
             break;
 

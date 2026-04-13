@@ -10,24 +10,6 @@
 
 std::vector<std::vector<Piece>> New_Game()
 {
-    // Piece R1{PieceColor::Black, PieceType::ROOK};
-    // Piece N1{PieceColor::Black, PieceType::KNIGHT};
-    // Piece B1{PieceColor::Black, PieceType::BISHOP};
-    // Piece Q1{PieceColor::Black, PieceType::QUEEN};
-    // Piece K1{PieceColor::Black, PieceType::KING};
-    // Piece B2{PieceColor::Black, PieceType::BISHOP};
-    // Piece N2{PieceColor::Black, PieceType::KNIGHT};
-    // Piece R2{PieceColor::Black, PieceType::ROOK};
-
-    // Piece P1{PieceColor::Black, PieceType::PAWN};
-    // Piece P2{PieceColor::Black, PieceType::PAWN};
-    // Piece P3{PieceColor::Black, PieceType::PAWN};
-    // Piece P4{PieceColor::Black, PieceType::PAWN};
-    // Piece P5{PieceColor::Black, PieceType::PAWN};
-    // Piece P6{PieceColor::Black, PieceType::PAWN};
-    // Piece P7{PieceColor::Black, PieceType::PAWN};
-    // Piece P8{PieceColor::Black, PieceType::PAWN};
-
     Piece R1{PieceColor::Black, PieceType::ROOK, std::pair(0, 0)};
     Piece N1{PieceColor::Black, PieceType::KNIGHT, std::pair(0, 1)};
     Piece B1{PieceColor::Black, PieceType::BISHOP, std::pair(0, 2)};
@@ -110,7 +92,6 @@ std::vector<std::vector<Piece>> New_Game()
         {P9, P10, P11, P12, P13, P14, P15, P16},
         {R3, N3, B3, K2, Q2, B4, N4, R4}
     };
-    ///////////////////////Comment faire un mouv ?
     return chessboard;
 }
 
