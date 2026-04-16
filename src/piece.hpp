@@ -1,5 +1,7 @@
 // #ifndef __PIECE__HPP
 // #define __PIECE__HPP
+#pragma once
+
 #include <array>
 #include <cstdint>
 #include <optional>

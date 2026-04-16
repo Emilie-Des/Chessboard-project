@@ -259,9 +259,6 @@ std::vector<Piece> Piece::rookMoves(std::vector<std::vector<Piece>>& chessboard,
 
 std::vector<Piece> Piece::pawnMoves(std::vector<std::vector<Piece>>& chessboard, std::vector<Piece>& destinations, int const& piece_x, int const& piece_y)
 {
-    bool left_enemy_test{};
-    bool right_enemy_test{};
-
     int direction{1}; ///////////Add assert direction only equal 1 or -1
 
     if (m_color == PieceColor::White)
@@ -278,15 +275,19 @@ std::vector<Piece> Piece::pawnMoves(std::vector<std::vector<Piece>>& chessboard,
     {
         if (piece_x > 0)
         {
-            left_enemy_test = chessboard[piece_y + 1 * direction][piece_x - 1].getColor() != m_color;
-            if (left_enemy_test)
+            Piece left_forward_piece = chessboard[piece_y + 1 * direction][piece_x - 1];
+
+            if (left_forward_piece.getColor().has_value()
+                && left_forward_piece.getColor() != m_color)
                 destinations.push_back(chessboard[piece_y + 1 * direction][piece_x - 1]);
         }
 
         if (piece_x < 7)
         {
-            right_enemy_test = chessboard[piece_y + 1 * direction][piece_x + 1].getColor() != m_color;
-            if (right_enemy_test)
+            Piece right_forward_piece = chessboard[piece_y + 1 * direction][piece_x + 1];
+
+            if (right_forward_piece.getColor().has_value()
+                && right_forward_piece.getColor() != m_color)
                 destinations.push_back(chessboard[piece_y + 1 * direction][piece_x + 1]);
         }
 

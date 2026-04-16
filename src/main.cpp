@@ -5,6 +5,7 @@
 #include <iterator>
 #include <ostream>
 #include <vector>
+#include "interface.hpp"
 #include "piece.hpp"
 #include "quick_imgui/quick_imgui.hpp"
 
@@ -97,197 +98,52 @@ std::vector<std::vector<Piece>> New_Game()
 
 int main()
 {
-    float value{0.f};
-
-    float padding = 0;
-
-    // std::array<std::array<Piece, 8>, 8> chessboard{New_Game()};
+    // io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
     std::vector<std::vector<Piece>> chessboard{New_Game()};
-    std::vector<Piece>              destinations{};
-    Piece*                          ptr_selected{};
-    const auto                      ptr_addr = ptr_selected;
+    int                             game_mode{0};
 
-    quick_imgui::loop(
-        "Chess",
-        {
-            .init = [&]() {},
-            .loop =
-                [&]() {
-                    ImGui::ShowDemoWindow(); // This opens a window which shows tons of examples of what you can do with ImGui. You should check it out! Also, you can use the "Item Picker" in the top menu of that demo window: then click on any widget and it will show you the corresponding code directly in your IDE!
+    // StarterMenu(game_mode);
 
-                    ImGui::Begin("Example");
+    GameWindow(chessboard, game_mode);
 
-                    ImGui::SliderFloat("My Value", &value, 0.f, 3.f);
+    // float value{0.f};
 
-                    if (ImGui::Button("1", ImVec2{50.f, 50.f}))
-                        std::cout << "Clicked button 1\n";
-                    ImGui::SameLine(); // Draw the next ImGui widget on the same line as the previous one. Otherwise it would be below it
+    // quick_imgui::loop(
+    //     "Chess",
+    //     {
+    //         .init = [&]() {},
+    //         .loop =
+    //             [&]() {
+    //                 ImGui::ShowDemoWindow(); // This opens a window which shows tons of examples of what you can do with ImGui. You should check it out! Also, you can use the "Item Picker" in the top menu of that demo window: then click on any widget and it will show you the corresponding code directly in your IDE!
 
-                    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{1.f, 0.f, 0.f, 1.f}); // Changes the color of all buttons until we call ImGui::PopStyleColor(). There is also ImGuiCol_ButtonActive and ImGuiCol_ButtonHovered
+    //                 ImGui::Begin("Example");
 
-                    ImGui::PushID(2); // When some ImGui items have the same label (for exemple the next two buttons are labeled "Yo") ImGui needs you to specify an ID so that it can distinguish them. It can be an int, a pointer, a string, etc.
-                                      // You will definitely run into this when you create a button for each of your chess pieces, so remember to give them an ID!
-                    if (ImGui::Button("Yo", ImVec2{50.f, 50.f}))
-                        std::cout << "Clicked button 2\n";
-                    ImGui::PopID(); // Then pop the id you pushed after you created the widget
+    //                 ImGui::SliderFloat("My Value", &value, 0.f, 3.f);
 
-                    ImGui::SameLine();
-                    ImGui::PushID(3);
-                    if (ImGui::Button("Yo", ImVec2{50.f, 50.f}))
-                        std::cout << "Clicked button 3\n";
-                    ImGui::PopID();
+    //                 if (ImGui::Button("1", ImVec2{50.f, 50.f}))
+    //                     std::cout << "Clicked button 1\n";
+    //                 ImGui::SameLine(); // Draw the next ImGui widget on the same line as the previous one. Otherwise it would be below it
 
-                    ImGui::PopStyleColor();
+    //                 ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{1.f, 0.f, 0.f, 1.f}); // Changes the color of all buttons until we call ImGui::PopStyleColor(). There is also ImGuiCol_ButtonActive and ImGuiCol_ButtonHovered
 
-                    ImGui::End();
-                    /////////////////////////////////////////////////
+    //                 ImGui::PushID(2); // When some ImGui items have the same label (for exemple the next two buttons are labeled "Yo") ImGui needs you to specify an ID so that it can distinguish them. It can be an int, a pointer, a string, etc.
+    //                                   // You will definitely run into this when you create a button for each of your chess pieces, so remember to give them an ID!
+    //                 if (ImGui::Button("Yo", ImVec2{50.f, 50.f}))
+    //                     std::cout << "Clicked button 2\n";
+    //                 ImGui::PopID(); // Then pop the id you pushed after you created the widget
 
-                    ImGui::Begin("Chess");
-                    ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(1200, 1200));
+    //                 ImGui::SameLine();
+    //                 ImGui::PushID(3);
+    //                 if (ImGui::Button("Yo", ImVec2{50.f, 50.f}))
+    //                     std::cout << "Clicked button 3\n";
+    //                 ImGui::PopID();
 
-                    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(padding, padding));
+    //                 ImGui::PopStyleColor();
 
-                    if (ImGui::IsMouseClicked(ImGuiMouseButton_Right))
-                    {
-                        destinations.clear();
-                        ptr_selected = ptr_addr;
-                    }
-                    int num_case = 0;
-                    for (int y{0}; y < 8; y++)
-                    {
-                        for (int x{0}; x < 8; x++)
-                        {
-                            bool is_destination{};
-                            is_destination = std::find(destinations.begin(), destinations.end(), chessboard[y][x]) != destinations.end();
-                            if (is_destination)
-                            {
-                                // ImGui::PushStyleColor(ImGuiCol_Border, ImVec4{0.9f, 0.5f, 0.0f, 1.f});
-                                ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{0.9f, 0.5f, 0.0f, 1.f});
-                            }
-                            else if (y % 2 == x % 2)
-                            {
-                                ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{0.9f, 0.7f, 0.9f, 1.f});
-                            }
-                            else
-                            {
-                                ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{0.3f, 0.f, 0.3f, 1.f});
-                            }
-
-                            if (chessboard[y][x].getColor() == PieceColor::Black)
-                            {
-                                ImGui::PushStyleColor(ImGuiCol_Text, ImVec4{0.f, 0.f, 0.f, 1.f});
-                            }
-                            else
-                            {
-                                ImGui::PushStyleColor(ImGuiCol_Text, ImVec4{1.f, 1.f, 1.f, 1.f});
-                            }
-
-                            ImGui::PushID(num_case);
-
-                            if (chessboard[y][x].getType() == PieceType::KING)
-                            {
-                                if (ImGui::Button("R", ImVec2{150.f, 150.f}))
-                                {
-                                    if (!destinations.empty())
-                                        chessboard[y][x].move(destinations, *ptr_selected);
-                                    else
-                                    {
-                                        destinations = chessboard[y][x].select(chessboard);
-                                        ptr_selected = &chessboard[y][x];
-                                        std::cout << "clicked : " << x << ";" << y << " case : " << (chessboard[y][x].getPosition()).first << ";" << (chessboard[y][x].getPosition()).second << " | ";
-                                    }
-                                }
-                            }
-                            else if (chessboard[y][x].getType() == PieceType::QUEEN)
-                            {
-                                if (ImGui::Button("D", ImVec2{150.f, 150.f}))
-                                {
-                                    if (!destinations.empty())
-                                        chessboard[y][x].move(destinations, *ptr_selected);
-                                    else
-                                    {
-                                        destinations = chessboard[y][x].select(chessboard);
-                                        ptr_selected = &chessboard[y][x];
-                                        std::cout << "clicked : " << x << ";" << y << " case : " << (chessboard[y][x].getPosition()).first << ";" << (chessboard[y][x].getPosition()).second << " | ";
-                                    }
-                                }
-                            }
-                            else if (chessboard[y][x].getType() == PieceType::BISHOP)
-                            {
-                                if (ImGui::Button("F", ImVec2{150.f, 150.f}))
-                                {
-                                    if (!destinations.empty())
-                                        chessboard[y][x].move(destinations, *ptr_selected);
-                                    else
-                                    {
-                                        destinations = chessboard[y][x].select(chessboard);
-                                        ptr_selected = &chessboard[y][x];
-                                        std::cout << "clicked : " << x << ";" << y << " case : " << (chessboard[y][x].getPosition()).first << ";" << (chessboard[y][x].getPosition()).second << " | ";
-                                    }
-                                }
-                            }
-                            else if (chessboard[y][x].getType() == PieceType::KNIGHT)
-                            {
-                                if (ImGui::Button("C", ImVec2{150.f, 150.f}))
-                                {
-                                    if (!destinations.empty())
-                                        chessboard[y][x].move(destinations, *ptr_selected);
-                                    else
-                                    {
-                                        destinations = chessboard[y][x].select(chessboard);
-                                        ptr_selected = &chessboard[y][x];
-                                        std::cout << "clicked : " << x << ";" << y << " case : " << (chessboard[y][x].getPosition()).first << ";" << (chessboard[y][x].getPosition()).second << " | ";
-                                    }
-                                }
-                            }
-                            else if (chessboard[y][x].getType() == PieceType::ROOK)
-                            {
-                                if (ImGui::Button("T", ImVec2{150.f, 150.f}))
-                                {
-                                    if (!destinations.empty())
-                                        chessboard[y][x].move(destinations, *ptr_selected);
-                                    else
-                                    {
-                                        destinations = chessboard[y][x].select(chessboard);
-                                        ptr_selected = &chessboard[y][x];
-                                        std::cout << "clicked : " << x << ";" << y << " case : " << (chessboard[y][x].getPosition()).first << ";" << (chessboard[y][x].getPosition()).second << " | ";
-                                    }
-                                }
-                            }
-                            else if (chessboard[y][x].getType() == PieceType::PAWN)
-                            {
-                                if (ImGui::Button("P", ImVec2{150.f, 150.f}))
-                                {
-                                    if (!destinations.empty())
-                                        chessboard[y][x].move(destinations, *ptr_selected);
-                                    else
-                                    {
-                                        destinations = chessboard[y][x].select(chessboard);
-                                        ptr_selected = &chessboard[y][x];
-                                        std::cout << "clicked : " << x << ";" << y << " case : " << (chessboard[y][x].getPosition()).first << ";" << (chessboard[y][x].getPosition()).second << " | ";
-                                    }
-                                }
-                            }
-
-                            else
-                            {
-                                if (ImGui::Button("", ImVec2{150.f, 150.f}))
-                                    chessboard[y][x].move(destinations, *ptr_selected);
-                            }
-                            ImGui::SameLine();
-
-                            ImGui::PopID();
-                            ImGui::PopStyleColor();
-                            ImGui::PopStyleColor();
-                            num_case++;
-                        }
-                        ImGui::NewLine();
-                    }
-
-                    ImGui::PopStyleVar(2);
-
-                    ImGui::End();
-                },
-        }
-    );
+    //                 ImGui::End();
+    /////////////////////////////////////////////////
+    // }
+    // ,
+    // }
+    // );
 }
