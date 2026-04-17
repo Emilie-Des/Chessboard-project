@@ -4,12 +4,6 @@
 
 void StarterMenu(int& game_mode)
 {
-    // quick_imgui::loop(
-    //     "Chess",
-    //     {
-    //         .init = [&]() {},
-    //         .loop =
-    //             [&]() {
     ImGui::BeginChildFrame(90, ImVec2{400, 200});
     // ImGui::OpenPopup(1);
     // ImGui::popup
@@ -17,7 +11,6 @@ void StarterMenu(int& game_mode)
     ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{1.f, 0.f, 0.f, 1.f});
 
     if (ImGui::Button("Mode standard", ImVec2{100.f, 50.f}))
-        // exit(0);
         // ImGui::CloseCurrentPopup();
         game_mode = 0;
     ImGui::SameLine();
@@ -28,15 +21,11 @@ void StarterMenu(int& game_mode)
     ImGui::PopStyleColor();
     // ImGui::EndPopup();
     ImGui::EndChildFrame();
-    //             },
-    //     }
-    // );
 }
 
 void GameWindow(std::vector<std::vector<Piece>>& chessboard, int game_mode)
 {
-    float padding = 0;
-    // std::array<std::array<Piece, 8>, 8> chessboard{New_Game()};
+    float              padding = 0;
     std::vector<Piece> destinations{};
     Piece*             ptr_selected{};
     const auto         ptr_addr = ptr_selected;
@@ -68,7 +57,6 @@ void GameWindow(std::vector<std::vector<Piece>>& chessboard, int game_mode)
                             is_destination = std::find(destinations.begin(), destinations.end(), chessboard[y][x]) != destinations.end();
                             if (is_destination)
                             {
-                                // ImGui::PushStyleColor(ImGuiCol_Border, ImVec4{0.9f, 0.5f, 0.0f, 1.f});
                                 ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{0.9f, 0.5f, 0.0f, 1.f});
                             }
                             else if (y % 2 == x % 2)
